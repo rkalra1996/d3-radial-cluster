@@ -14,6 +14,8 @@ dataLoader.getDataSet(function(dataSet){
                 color: 'pink'
             }
         }
-        RadialCluster.render(dataSet.data, config);
+        RadialCluster.render('radial-cluster', dataSet.data, config);
+        debugger;
+        LinearCluster.render('linear-cluster', dataSet.data, config);
     }
 }, dataExtention);

@@ -1,10 +1,10 @@
 var RadialCluster = (function (d3Object) {
 
-    function createSVG() {
-        let svgEl = d3Object.select("svg");
+    function createSVG(svgID) {
+        let svgEl = d3Object.select(`#${svgID}`);
         let width = +svgEl.attr("width")
         let height = +svgEl.attr("height");
-        let g = svgEl.append("g").attr("transform", "translate(" + (width / 2 - 15) + "," + (height / 2 + 25) + ")");
+        let g = svgEl.append("g").attr("transform", "translate(" + (width / 2 - 15) + "," + (height / 2 + 90) + ")");
         return {
             svgEl,
             g,
@@ -13,9 +13,9 @@ var RadialCluster = (function (d3Object) {
         };
     }
 
-    function render(dataToUse, configToUse) {
+    function render(svgID, dataToUse, configToUse) {
 
-        var svgConfig = createSVG();
+        var svgConfig = createSVG(svgID);
 
         // check if the user wants to create a linear or radial dendrograph
         var cluster;
@@ -24,6 +24,7 @@ var RadialCluster = (function (d3Object) {
             console.log('selected json');
             cluster = d3Object.cluster()
                 .size([360, 390]);
+
             root = d3Object.hierarchy(dataToUse, function (d) {
                 return d.children
             });
@@ -35,9 +36,12 @@ var RadialCluster = (function (d3Object) {
                 .parentId(function (d) {
                     return d.id.substring(0, d.id.lastIndexOf("."));
                 });
-            cluster = d3Object.tree()
-                .size([360, 390]);
+                const degreesSpread = 360;
+                const depth = svgConfig.height/2;
+                cluster = d3Object.tree()
+                .size([degreesSpread, depth]).separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });;
 
+            
             root = cluster(stratify(dataToUse)
                 .sort(function (a, b) {
                     return (a.height - b.height) || a.id.localeCompare(b.id);
@@ -53,20 +57,10 @@ var RadialCluster = (function (d3Object) {
             .enter().append("path")
             .attr("class", "link")
             .attr("d", function (d) {
-                if (configToUse.type === 'linear') {
-                    console.log('type selected is linear');
-                    return "M" + d.y + "," + d.x
-                               + "C" + (d.parent.y + 100) + "," + d.x
-                               + " " + (d.parent.y + 100) + "," + d.parent.x
-                               + " " + d.parent.y + "," + d.parent.x;
-                }
-                else {
-                    console.log('type selected is radial');
                     return "M" + project(d.x, d.y) +
                     "C" + project(d.x, (d.y + d.parent.y) / 2) +
                     " " + project(d.parent.x, (d.y + d.parent.y) / 2) +
                     " " + project(d.parent.x, d.parent.y);
-                }
             }).style("stroke", configToUse.link.color);
 
         var node = svgConfig.g.selectAll(".node")
@@ -76,29 +70,13 @@ var RadialCluster = (function (d3Object) {
                 return "node" + (d.children ? " node--internal" : " node--leaf");
             })
             .attr("transform", function (d) {
-                return `translate( ${ configToUse.type === 'radial' ? project(d.x, d.y) : d.y + "," + d.x })`;
+                return `translate( ${project(d.x, d.y)})`;
             });
 
         node.append("circle")
             .attr("r", function(){ return configToUse.node.radius ? configToUse.node.radius : 3.5}).style("fill", configToUse.node.color);
 
-            if (configToUse.type === 'linear') {
-                node.append("text")
-                .attr("dy", 3)
-                .attr("x", function(d) { return d.children ? -8 : 8; })
-                .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
-                .text(function(d) {
-                    if (configToUse.extension === 'csv') {
-                        if (d.hasOwnProperty('id')) {
-                         return d.id.substring(d.id.lastIndexOf(".") + 1); 
-                        }
-                        else {return null} 
-                    } else {
-                        return (configToUse.node.label && d.data.hasOwnProperty(configToUse.node.label)) ? d.data[configToUse.node.label] :  d.data.name
-                    }
-                    });
-            } else {
-                node.append("text")
+            node.append("text")
                 .attr("dy", ".31em")
                 .attr("x", function (d) {
                     return d.x < 180 === !d.children ? 13 : -13;
@@ -106,6 +84,7 @@ var RadialCluster = (function (d3Object) {
                 .style("text-anchor", function (d) {
                     return d.x < 180 === !d.children ? "start" : "end";
                 })
+                .style('font-size', function(){return 2*(configToUse.node.radius ? configToUse.node.radius : 3.5)})
                 .attr("transform", function (d) {
                     return "rotate(" + (d.x < 180 ? d.x - 90 : d.x + 90) + ")";
                 })
@@ -121,8 +100,6 @@ var RadialCluster = (function (d3Object) {
                         return (configToUse.node.label && d.data.hasOwnProperty(configToUse.node.label)) ? d.data[configToUse.node.label] :  d.data.name
                     }
                 });
-    
-            }
         function project(x, y) {
             var angle = (x - 90) / 180 * Math.PI,
                 radius = y;
