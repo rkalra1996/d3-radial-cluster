@@ -2,14 +2,14 @@ console.log('mainJS loaded');
 const dataExtention = 'json';
 const externalJSON = 'https://api.myjson.com/bins/cfwf0';
 const externalJSON2 = 'https://api.myjson.com/bins/fozrs';
-const localDBFileURL = `./db/data.${dataExtention}`
+const localDBFileURL = `./db/data2.${dataExtention}`
 dataLoader.getDataSet(function(dataSet){
     if (dataSet.ok) {
         const RadialConfig = {
             extension: dataExtention,
             node: {
                 color: 'green',
-                label: 'value'
+                label: 'name'
             },
             link: {
                 color: 'pink'
@@ -20,7 +20,7 @@ dataLoader.getDataSet(function(dataSet){
             extension: dataExtention,
             node: {
                 color: 'red',
-                label: 'value'
+                label: 'name'
             },
             link: {
                 color: 'blue'

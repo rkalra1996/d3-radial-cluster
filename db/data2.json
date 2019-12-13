@@ -1,0 +1,84 @@
+{
+    "name": "COMPANY ABC",
+    "children": [
+        {
+            "name": "TOP Level Management",
+            "children": [
+                {
+                    "name": "Directors",
+                    "children": [
+                        {"name": "Director-1"},{"name": "Director-2"},{"name": "Director-3"},{"name": "Director-4"}
+                    ]
+                },
+                {
+                    "name": "CEO"
+                },
+                {
+                    "name": "COO"
+                },
+                {
+                    "name": "MD"
+                },
+                {
+                    "name": "CFO"
+                },
+                {
+                    "name": "Senior Acc Manager"
+                },
+                {
+                    "name": "Senior Law Consultant"
+                }
+            ]
+        },
+        {
+            "name": "MID Level Management",
+            "children": [
+                {
+                    "name": "Project Director",
+                    "children": [
+                    {"name": "Project Manager 1"},{"name": "Project Manager 2"},{"name": "Project Manager 3"}
+                    ]
+                },
+                {
+                    "name": "GM"
+                },
+                {
+                    "name": "Asst GM"
+                },
+                {
+                    "name": "Deputy Director"
+                },
+                {
+                    "name": "Asst. Director"
+                },
+                {
+                    "name": "Accounting & Payroll Manager"
+                },
+                {
+                    "name": "Legal Consultant"
+                },
+                {
+                    "name": "Legal Asst"
+                }
+            ]
+        },
+        {
+            "name": "BASE Level Management",
+            "children": [
+                {
+                    "name": "Regional Manager"
+                },
+                {
+                    "name": "Admin Manager"
+                },
+                {
+                    "name": "Brokerage Manager"
+                },
+                {
+                    "name": "Sales Manager"
+                }
+            ]
+        }
+        
+    ]
+}
