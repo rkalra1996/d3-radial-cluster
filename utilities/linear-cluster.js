@@ -1,12 +1,48 @@
 var LinearCluster = (function (d3Object) {
 
 
+    function createSVGComponent(containerid, paddingAll = '50 50 50 50') {
+        // apply default word cloud size if not available
+        var svgSize = '750 750';
+        var containerElement = d3Object.selectAll(containerid);
+        let element = containerElement.nodes();
+        // To check if no containers are found with the containerid
+        if (!element || element.length == 0)
+          throw new Error('No Container found with element selector : ' + containerid);
+          // To check if multiple containers are found with the containerid
+          if(element.length >1)
+          throw new Error('Multiple Container found with element selector : "' + containerid + '". Please specify unique id or class of the element');
+        let svgSizeEach = svgSize.split(' ');
+        console.log(containerid);
+        console.log(d3Object.select(element[0]).attr('height'));
+        console.log(d3Object.select(element[0]).attr('width'));
+        let container_height = d3Object.select(element[0]).attr('height') || svgSizeEach[0];
+        let container_width = d3Object.select(element[0]).attr('width') || svgSizeEach[1];
+        let elementStyle = window.getComputedStyle(element[0]);
+        let paddingEach = paddingAll.split(' ');
+        let padding_left = parseFloat(elementStyle.getPropertyValue('padding-left')) || paddingEach[0];
+        let padding_right = parseFloat(elementStyle.getPropertyValue('padding-right')) || paddingEach[1];
+        let padding_top = parseFloat(elementStyle.getPropertyValue('padding-top')) || paddingEach[2];
+        let padding_bottom = parseFloat(elementStyle.getPropertyValue('padding-bottom')) || paddingEach[3];
+        container_width = container_width - padding_left - padding_right;
+        container_height = container_height - padding_top - padding_bottom;
+        console.log('Width : ', container_width);
+        console.log('Height : ', container_height);
+        var svgElement = containerElement
+          .append('svg')
+          .attr('class', 'svgElement')
+          .attr('height', container_height)
+          .attr("width", container_width);
+        return svgElement;
+      }
+
+
     function createSVG(svgID) {
-        let svgEl = d3Object.select(`#${svgID}`);
+        let svgEl = createSVGComponent(`#${svgID}`);
         const width = +svgEl.attr("width");
         const height = +svgEl.attr("height");
 
-        const g = svgEl.append("g").attr("transform", `translate(${40},${0})`);
+        const g = svgEl.append("g").attr("transform", `translate(${60},${0})`);
 
         return {
             svgEl,
@@ -31,7 +67,7 @@ var LinearCluster = (function (d3Object) {
             cluster = d3Object.tree();
         }
         else if (configToUse.extension.toLowerCase() === 'json') {
-            d3Object.cluster().size([height - 400, width - 160]);
+            d3Object.cluster().size([height - 400, (height - 160)]);
             cluster = d3Object.cluster()
         }
         else {
@@ -39,7 +75,7 @@ var LinearCluster = (function (d3Object) {
         }
 
 
-        cluster.size([height, width - 160]).separation(function (a, b) {
+        cluster.size([height, width - 300]).separation(function (a, b) {
                 return (a.parent == b.parent ? 1 : 2) / a.depth;
             });
 
@@ -75,7 +111,6 @@ var LinearCluster = (function (d3Object) {
             .data(root.descendants())
             .enter().append("g")
             .attr("class", function (d) {
-                console.log(`depth of node ${d.data.name} is ${d.depth}`);
                 return "node" + (d.children ? " node--internal" : " node--leaf");
             })
             .attr("transform", function (d) {
