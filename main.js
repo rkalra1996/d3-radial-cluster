@@ -1,11 +1,12 @@
 console.log('mainJS loaded');
-const dataExtention = 'csv';
+const dataExtention = 'json';
 const externalJSON = 'https://api.myjson.com/bins/cfwf0';
+const externalJSON2 = 'https://api.myjson.com/bins/fozrs';
+const localDBFileURL = `./db/data.${dataExtention}`
 dataLoader.getDataSet(function(dataSet){
     if (dataSet.ok) {
-        const config = {
+        const RadialConfig = {
             extension: dataExtention,
-            type: 'radial',
             node: {
                 color: 'green',
                 label: 'value'
@@ -14,8 +15,18 @@ dataLoader.getDataSet(function(dataSet){
                 color: 'pink'
             }
         }
-        RadialCluster.render('radial-cluster', dataSet.data, config);
-        debugger;
-        LinearCluster.render('linear-cluster', dataSet.data, config);
+
+        const LinearConfig = {
+            extension: dataExtention,
+            node: {
+                color: 'red',
+                label: 'value'
+            },
+            link: {
+                color: 'blue'
+            }
+        }
+        RadialCluster.render('radial-cluster', dataSet.data, RadialConfig);
+        LinearCluster.render('linear-cluster', dataSet.data, LinearConfig);
     }
-}, dataExtention);
+}, dataExtention, localDBFileURL);

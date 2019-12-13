@@ -39,7 +39,7 @@ var RadialCluster = (function (d3Object) {
                 const degreesSpread = 360;
                 const depth = svgConfig.height/2;
                 cluster = d3Object.tree()
-                .size([degreesSpread, depth]).separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });;
+                .size([degreesSpread, depth]).separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
             
             root = cluster(stratify(dataToUse)
