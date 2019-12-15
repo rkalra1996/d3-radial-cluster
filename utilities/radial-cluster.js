@@ -1,7 +1,7 @@
 var RadialCluster = (function (d3Object) {
 
 
-    function createSVGComponent(containerid, paddingAll = '5 5 5 5') {
+    function createSVGComponent(containerid, paddingAll = '5 5 5 15') {
         // apply default word cloud size if not available
         var svgSize = '750 750';
         var containerElement = d3Object.selectAll(containerid);
@@ -14,7 +14,7 @@ var RadialCluster = (function (d3Object) {
           throw new Error('Multiple Container found with element selector : "' + containerid + '". Please specify unique id or class of the element');
         let svgSizeEach = svgSize.split(' ');
         let container_height = d3Object.select(element[0]).attr('height') || svgSizeEach[0];
-        let container_width = d3Object.select(element[0]).attr('width') || svgSizeEach[1];
+        let container_width = d3Object.select(element[0]).style('width').split('px')[0] || svgSizeEach[1];
         let elementStyle = window.getComputedStyle(element[0]);
         let paddingEach = paddingAll.split(' ');
         let padding_left = parseFloat(elementStyle.getPropertyValue('padding-left')) || paddingEach[0];
