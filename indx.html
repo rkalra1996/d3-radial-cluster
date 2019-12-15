@@ -4,46 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        #radial-cluster, #linear-cluster {
-    padding: 50px;
-}
-    .node circle {
-  fill: #999;
-}
-
-.node text {
-  font: 10px sans-serif;
-}
-
-.node--internal circle {
-  fill: #555;
-}
-
-.node--internal text {
-  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-}
-
-.link {
-  fill: none;
-  stroke: #555;
-  stroke-opacity: 0.4;
-  stroke-width: 1.5px;
-}
-    </style>
+    <link rel="stylesheet" href="./index.css">
     <title>Radial Cluster</title>
 </head>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <body>
+    <div class="selector">
+       <div class="dropdown">
+           <p class="title">This is title</p>
+           <ul class="dropdownList">
+               <li class="list-item selected">LI 1</li>
+               <li class="list-item">LI 2</li>
+               <li class="list-item">LI 3</li>
+               <li class="list-item">LI 4</li>
+           </ul>
+       </div> 
+    </div>
         <div id="radial-cluster" width="1500" height="1000"></div>
         <div width="1500" height="1000" id="linear-cluster"></div>
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="./utilities/urlHandler.js"></script>
 <script src="./utilities/linear-cluster.js"></script>
 <script src="./utilities/radial-cluster.js"></script>
 <script src="./utilities/data-loader.js"></script>
+<script src="./utilities/dropdown.js"></script>
 <script src="./main.js"></script>
 </html>

@@ -2,11 +2,11 @@
     "data": [
         {
             "name": "Program One",
-            "id": "sakjdnkredjksenw123",
+            "id": 0,
             "dataUrl": "https://api.myjson.com/bins/cfwf0"
         },{
             "name": "Company Hierarchy",
-            "id": "dksbfdsjhasehmbnfff",
+            "id": 1,
             "dataUrl": "https://api.myjson.com/bins/m8z54"
         }
     ]
