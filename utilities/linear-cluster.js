@@ -1,7 +1,7 @@
 var LinearCluster = (function (d3Object) {
 
 
-    function createSVGComponent(containerid, paddingAll = '50 50 50 50') {
+    function createSVGComponent(containerid, paddingAll = '5 5 5 5') {
         // apply default word cloud size if not available
         var svgSize = '750 750';
         var containerElement = d3Object.selectAll(containerid);
