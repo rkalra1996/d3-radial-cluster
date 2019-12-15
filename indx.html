@@ -8,7 +8,7 @@
     <title>Radial Cluster</title>
 </head>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<body>
+<body onload="selectAndLoadDataSet()">
     <div class="selector">
        <div class="dropdown">
            <p class="title">This is title</p>
@@ -21,8 +21,8 @@
        </div> 
     </div>
     <div class="flex-orientation">
-            <div id="radial-cluster" width="800" height="750"></div>
-            <div width="800" height="750" id="linear-cluster"></div>
+            <div id="radial-cluster" height="750"></div>
+            <div height="750" id="linear-cluster"></div>
     </div>
 </body>
 <script

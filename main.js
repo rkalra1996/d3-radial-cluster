@@ -3,10 +3,11 @@ const dataExtention = 'json';
 const externalJSON = 'https://api.myjson.com/bins/cfwf0';
 const externalJSON2 = 'https://api.myjson.com/bins/fozrs';
 const localDBFileURL = `./db/data2.${dataExtention}`;
-// get the current segment id to load
-const segmentID = urlHandler.videoIdToLoad;
 
-function selectAndLoadDataSet(segmentID) {
+
+function selectAndLoadDataSet() {
+    // get the current segment id to load
+    const segmentID = urlHandler.videoIdToLoad;
     // wrapper function to set the dropdown and then load the data set corresponding to selected option
     dataLoader.getDropdownData(function(dropdownData){
         // get the dropdown element via jQuery and proceed
@@ -49,7 +50,3 @@ function selectAndLoadDataSet(segmentID) {
         }
     });
 }
-
-console.log('segment id is ', segmentID);
-// get the dropdownData and create dropdown
-selectAndLoadDataSet(segmentID);
