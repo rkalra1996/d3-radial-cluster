@@ -1,9 +1,20 @@
 body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    min-height: 100%;
 }
+
+.flex-orientation {
+    display: flex;
+}
+
 #radial-cluster, #linear-cluster {
-padding: 50px;
+    flex: 1;
+    margin: auto;
+    width: 750px;
+    padding: 50px;
+    border: 1px solid grey;
 }
 .node circle {
 fill: #999;

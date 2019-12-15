@@ -1,7 +1,7 @@
 var RadialCluster = (function (d3Object) {
 
 
-    function createSVGComponent(containerid, paddingAll = '50 50 50 50') {
+    function createSVGComponent(containerid, paddingAll = '10 10 10 10') {
         // apply default word cloud size if not available
         var svgSize = '750 750';
         var containerElement = d3Object.selectAll(containerid);
@@ -13,9 +13,6 @@ var RadialCluster = (function (d3Object) {
           if(element.length >1)
           throw new Error('Multiple Container found with element selector : "' + containerid + '". Please specify unique id or class of the element');
         let svgSizeEach = svgSize.split(' ');
-        console.log(containerid);
-        console.log(d3Object.select(element[0]).attr('height'));
-        console.log(d3Object.select(element[0]).attr('width'));
         let container_height = d3Object.select(element[0]).attr('height') || svgSizeEach[0];
         let container_width = d3Object.select(element[0]).attr('width') || svgSizeEach[1];
         let elementStyle = window.getComputedStyle(element[0]);
@@ -26,8 +23,6 @@ var RadialCluster = (function (d3Object) {
         let padding_bottom = parseFloat(elementStyle.getPropertyValue('padding-bottom')) || paddingEach[3];
         container_width = container_width - padding_left - padding_right;
         container_height = container_height - padding_top - padding_bottom;
-        console.log('Width : ', container_width);
-        console.log('Height : ', container_height);
         var svgElement = containerElement
           .append('svg')
           .attr('class', 'svgElement')
@@ -41,7 +36,6 @@ var RadialCluster = (function (d3Object) {
         let svgEl = createSVGComponent(`#${svgID}`);
         let width = +(svgEl.attr("width"));
         let height = +(svgEl.attr("height"));
-        console.log('svg h', height);
         let g = svgEl.append("g").attr("transform", "translate(" + (width >> 1) + "," + (height >> 1) + ")");
         return {
             svgEl,
@@ -54,6 +48,10 @@ var RadialCluster = (function (d3Object) {
     function render(svgID, dataToUse, configToUse) {
 
         var svgConfig = createSVG(svgID);
+        // add zoom functionality
+        svgConfig.svgEl.call(d3Object.zoom().on("zoom", function(){
+            svgConfig.g.attr("transform", d3Object.event.transform);
+        }));
 
         // check if the user wants to create a linear or radial dendrograph
         var cluster;

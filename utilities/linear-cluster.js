@@ -13,9 +13,6 @@ var LinearCluster = (function (d3Object) {
           if(element.length >1)
           throw new Error('Multiple Container found with element selector : "' + containerid + '". Please specify unique id or class of the element');
         let svgSizeEach = svgSize.split(' ');
-        console.log(containerid);
-        console.log(d3Object.select(element[0]).attr('height'));
-        console.log(d3Object.select(element[0]).attr('width'));
         let container_height = d3Object.select(element[0]).attr('height') || svgSizeEach[0];
         let container_width = d3Object.select(element[0]).attr('width') || svgSizeEach[1];
         let elementStyle = window.getComputedStyle(element[0]);
@@ -26,8 +23,6 @@ var LinearCluster = (function (d3Object) {
         let padding_bottom = parseFloat(elementStyle.getPropertyValue('padding-bottom')) || paddingEach[3];
         container_width = container_width - padding_left - padding_right;
         container_height = container_height - padding_top - padding_bottom;
-        console.log('Width : ', container_width);
-        console.log('Height : ', container_height);
         var svgElement = containerElement
           .append('svg')
           .attr('class', 'svgElement')
@@ -59,6 +54,10 @@ var LinearCluster = (function (d3Object) {
         let width = svgConfig.width,
             height = svgConfig.height, 
             g = svgConfig.g;
+
+            svgConfig.svgEl.call(d3Object.zoom().on("zoom", function(){
+                g.attr("transform", d3Object.event.transform);
+            }));
 
         var cluster;
         // decide the type depending on data format
@@ -100,7 +99,7 @@ var LinearCluster = (function (d3Object) {
 
         cluster(root);
 
-        var link = g.selectAll(".link")
+        g.selectAll(".link")
             .data(root.descendants().slice(1))
             .enter().append("path")
             .attr("class", "link")
